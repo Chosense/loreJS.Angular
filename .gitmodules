@@ -1,0 +1,3 @@
+[submodule "external/loreJS"]
+	path = external/loreJS
+	url = https://github.com/Develore/loreJS.git
