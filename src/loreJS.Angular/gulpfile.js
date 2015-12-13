@@ -50,6 +50,9 @@ gulp.task("copy:loreJS", function () {
 gulp.task("copy:dist", function () {
     gulp.src("./wwwroot/js/loreJS.Angular/*.js")
         .pipe(gulp.dest("../../dist/js/"))
+
+    gulp.src("./Scripts/*.d.ts")
+        .pipe(gulp.dest("../../dist/js/"));
 });
 
 gulp.task("beforeBuild", ["copy:loreJS", "del:min:js", "clean:dist"]);
