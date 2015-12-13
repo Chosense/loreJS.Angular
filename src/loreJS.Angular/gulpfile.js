@@ -2,29 +2,32 @@
 "use strict";
 
 var gulp = require("gulp");
-var rimraf = require("rimraf");
+var del = require("del");
 var concat = require("gulp-concat");
 var cssmin = require("gulp-cssmin");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
 
-gulp.task("clean:js", function (cb) {
-    rimraf("./wwwroot/js/", cb);
+gulp.task("clean:js", function () {
+    return del("./wwwroot/js");
 });
 
 gulp.task("clean:css", function (cb) {
-    rimraf("./wwwroot/css/", cb);
+    return del("./wwwroot/css");
 });
 gulp.task("clean:dist", function (cb) {
-    rimraf("../../dist/js/", cb);
+    return del("../../dist/**/*", { force: true });
 });
 
 gulp.task("clean", ["clean:js", "clean:css", "clean:dist"]);
 
-gulp.task("min:js", function (cb) {
-    rimraf(".//wwwroot/js/loreJS.Angular/*.min.js", cb);
+gulp.task("del:min:js", function () {
+    return del("./wwwroot/js/loreJS.Angular/*.min.js");
+});
 
-    gulp.src(".//wwwroot/js/loreJS.Angular/*.js")
+gulp.task("min:js", function (cb) {
+
+    gulp.src("./wwwroot/js/loreJS.Angular/*.js")
         .pipe(uglify())
         .pipe(rename({
             extname: ".min.js"
@@ -49,6 +52,6 @@ gulp.task("copy:dist", function () {
         .pipe(gulp.dest("../../dist/js/"))
 });
 
-gulp.task("beforeBuild", ["copy:loreJS"]);
+gulp.task("beforeBuild", ["copy:loreJS", "del:min:js", "clean:dist"]);
 
 gulp.task("afterBuild", ["min", "copy:dist"]);
